@@ -1,11 +1,13 @@
 <!DOCTYPE html>
+{% load static %}
 <html>
     <head>
         <meta charset="UTF-8">
         <title>Greeting App</title>
+        <link rel="stylesheet" href="{%  static "/css/greeting.css" %}">
     </head>
     <body>
-        <h1>Hello, this is the index.html!</h1>
-        {{ insert_me }}
+        <h1>Hello, Greetings from the Cat!</h1>
+        <img src="{% static "/images/Twitch.jpg" %}" alt="Awks, picture can't load!">
     </body>
 </html>
