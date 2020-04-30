@@ -20,4 +20,5 @@ from greeting_app import views
 urlpatterns = [
     path('', views.index, name='index'),
     path('admin/', admin.site.urls),
+    path('form/', views.form_name_view, name='form'),
 ]
