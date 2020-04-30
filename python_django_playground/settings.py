@@ -39,6 +39,7 @@ INSTALLED_APPS = [
 
     # CUSTOM
     'greeting_app',
+    'users_app',
 ]
 
 MIDDLEWARE = [
