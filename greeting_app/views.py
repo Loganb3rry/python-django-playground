@@ -1,8 +1,8 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from greeting_app.models import Topic, WebPage, AccessRecord
 
 
 def index(request):
-    # return HttpResponse("Greetings from the Universe!")
-    my_dict = {'insert_me': 'Hello, I am from views.py'}
-    return render(request, 'greeting_app/index.html', context=my_dict)
+    web_pages_list = AccessRecord.objects.order_by('date')
+    date_dict = {'access_records': web_pages_list}
+    return render(request, 'greeting_app/index.html', context=date_dict)

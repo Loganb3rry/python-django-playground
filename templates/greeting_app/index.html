@@ -9,5 +9,26 @@
     <body>
         <h1>Hello, Greetings from the Cat!</h1>
         <img src="{% static "/images/Twitch.jpg" %}" alt="Awks, picture can't load!">
+
+        <h2>Here are the Access Records:</h2>
+        <div class="records">
+            {% if access_records %}
+                <table>
+                    <thead>
+                        <th>Site</th>
+                        <th>Date Accessed</th>
+                    </thead>
+
+                    {%  for access_record in access_records %}
+                    <tr>
+                        <td>{{ access_record.name }}</td>
+                        <td>{{ access_record.date }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            {% else %}
+                <p>No Access Records Found!</p>
+            {% endif %}
+        </div>
     </body>
 </html>
