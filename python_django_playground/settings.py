@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'greeting_app',
     'users_app',
     'basic_app',
+    'school_app',
 ]
 
 MIDDLEWARE = [
@@ -124,4 +125,4 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = MEDIA_DIR
 MEDIA_URL = '/media/'
 
-LOGIN_URL = '/user_app/user_login'
+# LOGIN_URL = '/user_app/user_login'
