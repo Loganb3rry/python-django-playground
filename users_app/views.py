@@ -1,29 +1,72 @@
 from django.shortcuts import render
-from users_app.forms import NewUserForm
-
-
-def help(request):
-    help_dict = {'help_insert': 'HELP PAGE'}
-    return render(request, 'users_app/help.html', context=help_dict)
+from users_app.forms import UserForm, UserProfileInfoForm
+from django.urls import reverse
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect, HttpResponse
 
 
 def index(request):
     return render(request, 'users_app/index.html')
 
 
-def users(request):
-    # user_list = User.objects.order_by('first_name')
-    # user_dict = {"users": user_list}
-    # return render(request, 'users_app/users.html', context=user_dict)
-    form = NewUserForm()
+@login_required
+def user_logout(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('index'))
+
+
+def register(request):
+    registered = False
 
     if request.method == 'POST':
-        form = NewUserForm(request.POST)
 
-        if form.is_valid():
-            form.save(commit=True)
-            return index(request)
+        user_form = UserForm(data=request.POST)
+        profile_form = UserProfileInfoForm(data=request.POST)
+
+        if user_form.is_valid() and profile_form.is_valid():
+
+            user = user_form.save()
+            user.set_password(user.password)
+            user.save()
+
+            profile = profile_form.save(commit=False)
+            profile.user = user
+
+            if 'profile_pic' in request.FILES:
+                profile.profile_pic = request.FILES['profile_pic']
+
+            profile.save()
+
+            registered = True
         else:
-            print('Error: Form Invalid')
+            print(user_form.errors, profile_form.errors)
+    else:
+        user_form = UserForm
+        profile_form = UserProfileInfoForm
 
-    return render(request, 'users_app/users.html', {'form': form})
+    return render(request, 'users_app/registration.html',
+                  {'user_form': user_form,
+                   'profile_form': profile_form,
+                   'registered': registered})
+
+
+def user_login(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(username=username, password=password)
+
+        if user:
+            if user.is_active:
+                login(request, user)
+                return HttpResponseRedirect(reverse('index'))
+            else:
+                return HttpResponse('Error: Account is not active')
+        else:
+            print('Someone tried to login and failed')
+            print('Username: {} and password {}'.format(username, password))
+            return HttpResponse('Error: Invalid login details supplied.')
+    else:
+        return render(request, 'users_app/login.html', {})
