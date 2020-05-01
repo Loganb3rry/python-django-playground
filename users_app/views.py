@@ -4,10 +4,22 @@ from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
+from django.views.generic import View, TemplateView
 
 
-def index(request):
-    return render(request, 'users_app/index.html')
+# Class Based View
+class IndexView(TemplateView):
+    template_name = 'users_app/index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['inject_me'] = 'BASIC INJECTION'
+        return context
+
+
+# Function Based View
+# def index(request):
+#    return render(request, 'users_app/index.html')
 
 
 @login_required

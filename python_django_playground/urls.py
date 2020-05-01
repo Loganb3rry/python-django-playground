@@ -19,7 +19,7 @@ from users_app import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.index, name='index'),
+    path('', views.IndexView.as_view(), name='index'),
     path('user_app/', include('users_app.urls')),
     path('logout/', views.user_logout, name='logout'),
 ]
