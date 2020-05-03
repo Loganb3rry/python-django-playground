@@ -14,8 +14,8 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-TEMPLATE_DIR = os.path.join(BASE_DIR, "templates")
-MEDIA_DIR = os.path.join(BASE_DIR, "media")
+TEMPLATE_DIR = os.path.join(BASE_DIR, "blog_app/templates/blog_app")
+# MEDIA_DIR = os.path.join(BASE_DIR, "media")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'users_app',
     'basic_app',
     'school_app',
+    'blog_app',
 ]
 
 MIDDLEWARE = [
@@ -121,8 +122,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, STATIC_URL)
 
-MEDIA_ROOT = MEDIA_DIR
+# MEDIA_ROOT = MEDIA_DIR
 MEDIA_URL = '/media/'
 
-# LOGIN_URL = '/user_app/user_login'
+LOGIN_REDIRECT_URL = '/'
